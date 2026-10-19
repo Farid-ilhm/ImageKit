@@ -2007,6 +2007,66 @@ body.workbench-body {
   margin: 0;
 }
 
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-comic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  background: #ffffff;
+  border: var(--ink-border-thin);
+  border-radius: var(--radius-sm);
+  padding: 6px 13px;
+  box-shadow: 2px 2px 0 #18181b;
+  text-decoration: none;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.social-comic-btn:hover {
+  background: var(--pastel-yellow);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 #18181b;
+  color: #18181b;
+}
+
+.social-comic-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #18181b;
+}
+
+.social-comic-btn svg {
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.social-comic-btn:hover svg {
+  transform: scale(1.12);
+}
+
+.social-comic-btn.instagram:hover {
+  background: var(--pastel-pink);
+}
+
+.social-comic-btn.linkedin:hover {
+  background: var(--pastel-cyan);
+}
+
 /* ==========================================================================
    STUDIO TABS NAVIGATION BAR
    ========================================================================== */
@@ -2954,7 +3014,16 @@ body.workbench-body {
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 12px;
     padding: 14px 16px;
+  }
+  .footer-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .footer-socials {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
