@@ -1,0 +1,338 @@
+<!-- Main Workspace: HD Image Scaler View -->
+<main class="workbench-layout hidden" id="scalerView" role="tabpanel" aria-label="HD Image Scaler">
+  <!-- Left Panel: Scaler Input & Settings -->
+  <section class="panel-left" aria-label="Panel Input dan Kontrol Scaler">
+    
+    <!-- Scaler Upload Card -->
+    <div class="deck-card card-drop">
+      <div class="deck-header">
+        <span class="deck-kicker">
+          <svg class="kicker-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2" fill="#ffd23f"/>
+            <circle cx="9" cy="9" r="2" fill="#ffffff"/>
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+          </svg>
+          SUMBER FOTO HD
+        </span>
+      </div>
+
+      <div class="upload-zone" id="scalerDropZone">
+        <input id="scalerFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/tiff" hidden>
+        
+        <div class="zone-prompt" id="scalerUploadPrompt">
+          <div class="prompt-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#ffd23f"/>
+            </svg>
+          </div>
+          <div class="prompt-text">
+            <h3>Tarik & letakkan foto di sini untuk diperHD!</h3>
+            <p>atau <button class="btn-text-action" id="scalerBrowseButton" type="button">buka dari folder file</button></p>
+          </div>
+          <div class="prompt-chips">
+            <span class="chip-bubble chip-png">PNG</span>
+            <span class="chip-bubble chip-jpg">JPG</span>
+            <span class="chip-bubble chip-webp">WEBP</span>
+            <span class="chip-sep">·</span>
+            <span class="chip-limit">Maks. 25 MB</span>
+          </div>
+        </div>
+
+        <!-- Scaler Selected File Card -->
+        <div class="scaler-selected-card hidden" id="scalerSelectedCard">
+          <div class="scaler-thumb-box">
+            <img id="scalerThumbImg" src="" alt="Pratinjau foto sumber">
+          </div>
+          <div class="scaler-meta-info">
+            <h4 id="scalerSelectedName">foto.png</h4>
+            <div class="scaler-meta-tags">
+              <span class="meta-tag tag-cyan" id="scalerOrigDims">0 × 0 px</span>
+              <span class="meta-tag tag-yellow" id="scalerTargetDims">Target: 0 × 0 px</span>
+            </div>
+          </div>
+          <button type="button" class="btn-scaler-replace" id="scalerReplaceBtn" title="Ganti foto">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.6"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Ganti</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scaler Controls Card -->
+    <div class="deck-card card-controls">
+      <div class="deck-header">
+        <span class="deck-kicker">
+          <svg class="kicker-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#ffd23f"/>
+          </svg>
+          PENGATURAN SKALA & KUALITAS HD
+        </span>
+      </div>
+
+      <div class="control-fields">
+        <!-- Scale Factor Options (2x vs 4x) -->
+        <div class="control-row">
+          <div class="field-info">
+            <label><strong>Faktor Pembesaran (Skala)</strong></label>
+            <small>Pilih resolusi target untuk diperbesar</small>
+          </div>
+          <div class="scale-buttons-grid">
+            <button type="button" class="btn-scale-opt active" data-scale="2" id="scaleOpt2x">
+              <div class="scale-badge">2× HD</div>
+              <div class="scale-desc">
+                <strong>200% Ukuran Asli</strong>
+                <small>Cepat & tajam untuk foto harian</small>
+              </div>
+            </button>
+            <button type="button" class="btn-scale-opt" data-scale="4" id="scaleOpt4x">
+              <div class="scale-badge">4× ULTRA</div>
+              <div class="scale-desc">
+                <strong>400% Super Tajam</strong>
+                <small>Resolusi besar untuk cetak & wallpaper</small>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Enhancement Profile Dropdown -->
+        <div class="control-row">
+          <div class="field-info">
+            <label><strong>Profil Optimasi Gambar</strong></label>
+            <small>Algoritma peningkatan sesuai tipe gambar</small>
+          </div>
+          <div class="select-container" id="scalerProfileWrap">
+            <button type="button" class="comic-dropdown-btn" id="scalerProfileBtn" aria-haspopup="listbox" aria-expanded="false">
+              <div class="comic-dropdown-selected">
+                <span class="dropdown-tag-badge tag-yellow" id="scalerSelectedProfileTag">FOTO & POTRET</span>
+                <span class="dropdown-selected-text" id="scalerSelectedProfileText">Detail Wajah & Tekstur Alami</span>
+              </div>
+              <div class="comic-dropdown-arrow" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </button>
+
+            <div class="comic-dropdown-menu hidden" id="scalerProfileMenu" role="listbox">
+              <div class="comic-dropdown-item active" role="option" data-value="photo" data-tag="FOTO & POTRET" data-tag-class="tag-yellow" data-label="Detail Wajah & Tekstur Alami" tabindex="0" aria-selected="true">
+                <div class="item-badge-pill tag-yellow">FOTO</div>
+                <div class="item-text-info">
+                  <strong>Foto & Potret</strong>
+                  <small>Pembersihan bintik halus, kejernihan kulit & tekstur natural</small>
+                </div>
+                <div class="item-check-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+
+              <div class="comic-dropdown-item" role="option" data-value="art" data-tag="LOGO & VEKTOR" data-tag-class="tag-cyan" data-label="Garis Tegas Anime & Ilustrasi" tabindex="0" aria-selected="false">
+                <div class="item-badge-pill tag-cyan">ART</div>
+                <div class="item-text-info">
+                  <strong>Logo, Vektor & Anime</strong>
+                  <small>Kontur garis sangat tajam tanpa blur kompresi</small>
+                </div>
+                <div class="item-check-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+
+              <div class="comic-dropdown-item" role="option" data-value="ultra" data-tag="ULTRA DETAIL" data-tag-class="tag-pink" data-label="Ketajaman Ekstrem & Mikrokontras" tabindex="0" aria-selected="false">
+                <div class="item-badge-pill tag-pink">ULTRA</div>
+                <div class="item-text-info">
+                  <strong>Ultra Detail Ekstrem</strong>
+                  <small>Maksimal ketajaman tekstur dan pemisahan mikrokontras</small>
+                </div>
+                <div class="item-check-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Denoise Toggle -->
+        <div class="control-row toggle-row">
+          <div class="field-info">
+            <label for="scalerDenoiseToggle"><strong>Pembersih Bintik (Denoise)</strong></label>
+            <small>Hilangkan kompresi kasar JPEG sebelum diperbesar</small>
+          </div>
+          <label class="workbench-switch" for="scalerDenoiseToggle">
+            <input type="checkbox" id="scalerDenoiseToggle" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+
+        <!-- CLAHE Smart Contrast Toggle -->
+        <div class="control-row toggle-row">
+          <div class="field-info">
+            <label for="scalerClaheToggle"><strong>Kontras Cerdas (CLAHE)</strong></label>
+            <small>Optimalisasi rentang dinamis tanpa merusak warna asli</small>
+          </div>
+          <label class="workbench-switch" for="scalerClaheToggle">
+            <input type="checkbox" id="scalerClaheToggle" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+
+        <!-- Sharpness Slider -->
+        <div class="control-row slider-row">
+          <div class="field-info-inline">
+            <div>
+              <label for="scalerSharpenSlider"><strong>Ketajaman Tepi</strong></label>
+              <small>Intensitas kristal tepi gambar</small>
+            </div>
+            <span class="slider-pill" id="scalerSharpenVal">15%</span>
+          </div>
+          <input type="range" id="scalerSharpenSlider" min="0" max="100" value="15" class="comic-slider">
+        </div>
+
+
+        <!-- Execute Button -->
+        <div class="control-execute">
+          <button class="btn-process-main btn-scaler-action" id="scalerProcessBtn" type="button" disabled>
+            <span>Tingkatkan ke HD</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Right Panel: Scaler Result Gallery -->
+  <section class="panel-right" aria-label="Panel Hasil Scaler">
+    <div class="deck-card card-gallery">
+      <div class="gallery-header">
+        <div class="gallery-title-box">
+          <span class="deck-kicker">
+            <svg class="kicker-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#ffd23f"/>
+            </svg>
+            HASIL GAMBAR HD
+          </span>
+          <h3>Pratinjau Kualitas HD</h3>
+        </div>
+        <div class="scaler-status-box" id="scalerStatusBox">
+          <span class="gallery-counter" id="scalerCompareBadge">Menunggu Foto</span>
+        </div>
+      </div>
+
+      <div class="gallery-body">
+        <!-- Scaler Empty State -->
+        <div class="gallery-empty-state" id="scalerEmptyState">
+          <div class="empty-icon-wrap" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#38bdf8"/>
+            </svg>
+          </div>
+          <h3>Belum ada foto yang diperHD</h3>
+          <p>Pilih foto di panel kiri, tentukan skala (2× atau 4×), lalu klik <strong>Tingkatkan ke HD</strong> untuk melihat keajaiban hasilnya!</p>
+        </div>
+
+        <!-- Scaler Loading State -->
+        <div class="gallery-loading-state hidden" id="scalerLoadingState" aria-live="polite">
+          <div class="loading-comic-box">
+            <div class="loading-wobble-icon" aria-hidden="true">
+              <svg class="spin-svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#ffd23f"/>
+              </svg>
+            </div>
+            <div class="loading-text-group">
+              <h4 id="scalerLoadingTitle">MemperHD Gambar...</h4>
+              <p id="scalerLoadingSubtitle">Menerapkan algoritma Lanczos4 & peningkatan mikrokontras detail...</p>
+            </div>
+            <div class="comic-progress-track">
+              <div class="comic-progress-bar animate-stripes" id="scalerProgressBar" style="width: 50%;"></div>
+            </div>
+            <div class="loading-meta-pill">
+              <span>Sedang memproses resolusi tinggi</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scaler Result Stage & Interactive Comparison -->
+        <div class="scaler-result-stage hidden" id="scalerResultStage">
+          <!-- Comparison Controls Bar -->
+          <div class="scaler-view-toolbar">
+            <div class="view-mode-tabs">
+              <button type="button" class="btn-view-mode active" id="btnModeSplit" title="Mode Geser Sebelum & Sesudah">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.6"><line x1="12" y1="2" x2="12" y2="22"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                <span>Split Geser</span>
+              </button>
+              <button type="button" class="btn-view-mode" id="btnModeSide" title="Mode Berdampingan">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.6"><rect width="8" height="18" x="3" y="3" rx="1"/><rect width="8" height="18" x="13" y="3" rx="1"/></svg>
+                <span>Berdampingan</span>
+              </button>
+            </div>
+            <div class="scaler-dim-tags">
+              <span class="dim-pill pill-orig" id="dimPillOrig">Sebelum: 0 × 0 px</span>
+              <span class="dim-arrow">→</span>
+              <span class="dim-pill pill-hd" id="dimPillHd">Sesudah: 0 × 0 px</span>
+            </div>
+          </div>
+
+          <!-- Interactive Split Comparison Canvas -->
+          <div class="compare-frame" id="compareFrame">
+            <div class="compare-container" id="compareContainer">
+              <div class="compare-stage" id="compareStage" style="--split-pos: 50%;">
+                <img id="compareAfterImg" class="compare-img compare-base-img" src="" alt="Sesudah diperbesar HD">
+                <img id="compareBeforeImg" class="compare-img compare-clipped-img" src="" alt="Sebelum diperbesar">
+                <div class="compare-handle" id="compareHandle" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Geser untuk membandingkan sebelum dan sesudah HD">
+                  <div class="handle-line"></div>
+                  <div class="handle-knob">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </div>
+                </div>
+                <span class="badge-compare badge-before">SEBELUM (ASLI)</span>
+                <span class="badge-compare badge-after">SESUDAH (HD)</span>
+              </div>
+            </div>
+
+            <!-- Side by Side Layout (alternative mode) -->
+            <div class="compare-side-container hidden" id="compareSideContainer">
+              <div class="side-col">
+                <div class="side-col-header">
+                  <span class="side-label">SEBELUM (ASLI)</span>
+                  <span class="side-dim" id="sideOrigDim">0 × 0 px</span>
+                </div>
+                <div class="side-img-box">
+                  <img id="sideBeforeImg" src="" alt="Sebelum">
+                </div>
+              </div>
+              <div class="side-col">
+                <div class="side-col-header hd-header">
+                  <span class="side-label">SESUDAH (HD)</span>
+                  <span class="side-dim" id="sideHdDim">0 × 0 px</span>
+                </div>
+                <div class="side-img-box">
+                  <img id="sideAfterImg" src="" alt="Sesudah">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Bar -->
+          <div class="scaler-result-actions">
+            <button type="button" class="btn-card-scale" id="btnBridgeScalerToBurik" title="Kirim hasil HD ini ke Meme Burik Studio">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" fill="#ff5722"/></svg>
+              <span>Jadikan Meme Burik</span>
+            </button>
+            <button type="button" class="btn-card-scale" id="btnBridgeRemoveBg" title="Kirim hasil HD ini ke alat Hapus Background">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+              <span>Hapus Background Gambar Ini</span>
+            </button>
+            <a class="btn-card-download" id="scalerDownloadBtn" href="" download="gambar-hd.png">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Unduh Foto HD PNG</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

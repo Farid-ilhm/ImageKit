@@ -1,0 +1,209 @@
+<!-- Main Workspace: Remove Background View -->
+<main class="workbench-layout" id="removeBgView" role="tabpanel" aria-label="Hapus Background">
+
+  <!-- Left Panel: Input & Settings -->
+  <section class="panel-left" aria-label="Panel Input dan Kontrol">
+    
+    <!-- Upload & Queue Card -->
+    <div class="deck-card card-drop">
+      <div class="deck-header">
+        <span class="deck-kicker">
+          <svg class="kicker-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z" fill="#ffd23f"/>
+          </svg>
+          SUMBER GAMBAR
+        </span>
+      </div>
+
+      <div class="upload-zone" id="dropZone">
+        <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/tiff" multiple hidden>
+        
+        <div class="zone-prompt" id="uploadPrompt">
+          <div class="prompt-icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" fill="#ffd23f"/>
+              <path d="M12 12v9" stroke="#18181b"/>
+              <path d="m8 16 4-4 4 4" stroke="#18181b"/>
+            </svg>
+          </div>
+          <div class="prompt-text">
+            <h3>Tarik & letakkan foto di sini!</h3>
+            <p>atau <button class="btn-text-action" id="browseButton" type="button">buka dari folder file</button></p>
+          </div>
+          <div class="prompt-chips">
+            <span class="chip-bubble chip-png">PNG</span>
+            <span class="chip-bubble chip-jpg">JPG</span>
+            <span class="chip-bubble chip-webp">WEBP</span>
+            <span class="chip-bubble chip-tiff">TIFF</span>
+            <span class="chip-sep">·</span>
+            <span class="chip-limit">Maks. 25 MB</span>
+          </div>
+        </div>
+
+        <div class="queue-bar hidden" id="queueHeader">
+          <div class="queue-meta">
+            <span class="queue-label">DAFTAR ANTREAN</span>
+            <h4 id="queueTitle">0 gambar dipilih</h4>
+          </div>
+          <button class="btn-queue-add" id="addMoreButton" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Foto
+          </button>
+        </div>
+        
+        <div class="image-list" id="imageList"></div>
+      </div>
+    </div>
+
+    <!-- Controls Card -->
+    <div class="deck-card card-controls">
+      <div class="deck-header">
+        <span class="deck-kicker">
+          <svg class="kicker-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#ffd23f"/>
+          </svg>
+          PILIHAN MODEL & FITUR
+        </span>
+      </div>
+
+      <div class="control-fields">
+        <!-- Model Engine Selection -->
+        <div class="control-row">
+          <div class="field-info">
+            <label for="modelSelect"><strong>Model AI Penghapus</strong></label>
+            <small>Pilih tipe objek utama foto</small>
+          </div>
+          <div class="select-container" id="comicDropdownWrap">
+            <!-- Native select remains synchronized for form data and JS -->
+            <select id="modelSelect" class="workbench-select hidden" tabindex="-1">
+              <option value="u2net" selected>U²-Net (Foto Potret, Orang & Produk)</option>
+              <option value="isnet-general-use">IS-Net (Presisi Logo, Vektor & Tepi Halus)</option>
+            </select>
+
+            <!-- Custom Comic Dropdown Button -->
+            <button type="button" class="comic-dropdown-btn" id="comicDropdownBtn" aria-haspopup="listbox" aria-expanded="false">
+              <div class="comic-dropdown-selected">
+                <span class="dropdown-tag-badge tag-yellow" id="dropdownSelectedTag">U²-NET</span>
+                <span class="dropdown-selected-text" id="dropdownSelectedText">Potret, Orang & Produk</span>
+              </div>
+              <div class="comic-dropdown-arrow" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </button>
+
+            <!-- Custom Comic Dropdown Menu -->
+            <div class="comic-dropdown-menu hidden" id="comicDropdownMenu" role="listbox">
+              <div class="comic-dropdown-item active" role="option" data-value="u2net" data-tag="U²-NET" data-tag-class="tag-yellow" data-label="Potret, Orang & Produk" tabindex="0" aria-selected="true">
+                <div class="item-badge-pill tag-yellow">U²-NET</div>
+                <div class="item-text-info">
+                  <strong>Foto Potret, Orang & Produk</strong>
+                  <small>Sangat seimbang untuk foto orang & produk jualan</small>
+                </div>
+                <div class="item-check-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+
+              <div class="comic-dropdown-item" role="option" data-value="isnet-general-use" data-tag="IS-NET" data-tag-class="tag-cyan" data-label="Presisi Logo & Tepi Halus" tabindex="0" aria-selected="false">
+                <div class="item-badge-pill tag-cyan">IS-NET</div>
+                <div class="item-text-info">
+                  <strong>Presisi Logo, Vektor & Tepi Halus</strong>
+                  <small>Tepi sangat tajam untuk logo, anime & garis tipis</small>
+                </div>
+                <div class="item-check-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alpha Matting Switch -->
+        <div class="control-row toggle-row">
+          <div class="field-info">
+            <label for="mattingToggle"><strong>Mode Rambut Halus</strong></label>
+            <small>Alpha matting untuk serat rambut & bulu</small>
+          </div>
+          <label class="workbench-switch" for="mattingToggle">
+            <input type="checkbox" id="mattingToggle">
+            <span class="switch-track"></span>
+          </label>
+        </div>
+
+        <!-- Execute Button -->
+        <div class="control-execute">
+          <button class="btn-process-main" id="processButton" type="button" disabled>
+            <span>Hapus Background</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Right Panel: Results Gallery -->
+  <section class="panel-right" aria-label="Panel Hasil Gambar">
+    <div class="deck-card card-gallery">
+      <div class="gallery-header">
+        <div class="gallery-title-box">
+          <span class="deck-kicker">
+            <svg class="kicker-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="4" fill="#38bdf8"/>
+              <circle cx="8.5" cy="8.5" r="2" fill="#ffd23f"/>
+              <path d="m21 15-5-5L5 21"/>
+            </svg>
+            HASIL POTONGAN
+          </span>
+          <h3>Galeri Foto Bersih <span class="gallery-counter" id="resultCount"></span></h3>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="gallery-empty-state" id="galleryEmptyState">
+        <div class="empty-graphic" aria-hidden="true">
+          <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+            <rect x="8" y="10" width="48" height="42" rx="10" fill="#fed7aa" stroke="#18181b" stroke-width="3"/>
+            <rect x="14" y="16" width="36" height="30" rx="6" fill="#fef08a" stroke="#18181b" stroke-width="2.5"/>
+            <circle cx="23" cy="24" r="4" fill="#fb923c" stroke="#18181b" stroke-width="2"/>
+            <path d="M15 42 L26 29 L35 38 L43 28 L49 42 Z" fill="#4ade80" stroke="#18181b" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="21" cy="33" r="1.5" fill="#18181b"/>
+            <circle cx="41" cy="33" r="1.5" fill="#18181b"/>
+            <path d="M52 8 L54 13 L59 15 L54 17 L52 22 L50 17 L45 15 L50 13 Z" fill="#ffd23f" stroke="#18181b" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <h4>Belum Ada Gambar yang Diproses</h4>
+        <p>Masukkan foto di kotak sebelah kiri, lalu tekan tombol <strong>Hapus Background</strong> untuk melihat potongan transparan.</p>
+      </div>
+
+      <!-- Loading State Indicator -->
+      <div class="gallery-loading-state hidden" id="galleryLoadingState">
+        <div class="comic-loading-box">
+          <div class="comic-loading-icon-wrap">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="loading-spin-svg">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <div class="comic-loading-info">
+            <h4 id="loadingStateTitle">Sedang Memproses Gambar...</h4>
+            <p id="loadingStateSubtitle">AI sedang memotong objek dan membersihkan background.</p>
+          </div>
+          <div class="comic-progress-track">
+            <div class="comic-progress-bar" id="loadingProgressBar" style="width: 15%"></div>
+          </div>
+          <div class="comic-progress-footer">
+            <span class="comic-progress-badge" id="loadingProgressBadge">Menyiapkan model...</span>
+            <span class="comic-progress-percent" id="loadingProgressPercent">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Results Grid -->
+      <div class="results-container hidden" id="resultsSection">
+        <div class="results-grid" id="resultsGrid"></div>
+      </div>
+    </div>
+  </section>
+</main>
